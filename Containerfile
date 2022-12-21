@@ -12,5 +12,3 @@ RUN rpm-ostree override remove firefox firefox-langpacks && \
     systemctl enable flatpak-automatic.timer && \
     rpm-ostree cleanup -m && \
     ostree container commit
-    
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
