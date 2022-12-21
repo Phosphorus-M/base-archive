@@ -14,5 +14,3 @@ RUN rpm-ostree override remove firefox firefox-langpacks && \
     ostree container commit
     
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
