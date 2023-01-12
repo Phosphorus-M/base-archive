@@ -20,6 +20,3 @@ RUN rpm-ostree override remove firefox firefox-langpacks && \
     rm -f /etc/yum.repos.d/lyessaadi-blackbox.repo && \
     rpm-ostree cleanup -m && \
     ostree container commit
-
-# Install Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
