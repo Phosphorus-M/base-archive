@@ -36,7 +36,7 @@ if [ "$?" != 0 ] ; then
           --text="Replacing Fedora Flatpaks Failed"
         exit 1
 fi
-echo "20"
+echo "10"
 
 echo "# Removing Fedora Flatpak Repository"
 /usr/bin/flatpak remote-delete fedora --force ||:
@@ -45,7 +45,7 @@ if [ "$?" != 0 ] ; then
           --text="Removing Fedora Flatpak Repo Failed"
         exit 1
 fi
-echo "25"
+echo "15"
 
 echo "# Installing Firefox"
 /usr/bin/flatpak install --user --noninteractive flathub org.mozilla.firefox
@@ -54,7 +54,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Firefox Failed"
         exit 1
 fi
-echo "30"
+echo "20"
 
 echo "# Installing Extension Manager"
 /usr/bin/flatpak install --user --noninteractive flathub com.mattjakeman.ExtensionManager
@@ -63,7 +63,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Extension Manager Failed"
         exit 1
 fi
-echo "35"
+echo "25"
 
 echo "# Installing Flatseal"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.tchx84.Flatseal
@@ -72,7 +72,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Flatseal Failed"
         exit 1
 fi
-echo "40"
+echo "30"
 
 echo "# Installing LiveCaptions"
 /usr/bin/flatpak install --user --noninteractive flathub net.sapples.LiveCaptions
@@ -81,7 +81,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing LiveCaptions Failed"
         exit 1
 fi
-echo "45"
+echo "35"
 
 echo "# Installing Gradience"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.GradienceTeam.Gradience
@@ -90,7 +90,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Gradience Failed"
         exit 1
 fi
-echo "50"
+echo "40"
 
 echo "# Installing Smile"
 /usr/bin/flatpak install --user --noninteractive flathub it.mijorus.smile
@@ -99,8 +99,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Smile Failed"
         exit 1
 fi
-echo "55"
-
+echo "45"
 
 echo "# Installing GdmSettings"
 /usr/bin/flatpak install --user --noninteractive flathub io.github.realmazharhussain.GdmSettings
@@ -109,7 +108,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing GdmSettings Failed"
         exit 1
 fi
-echo "60"
+echo "50"
 
 echo "# Installing Celluloid Media Player"
 /usr/bin/flatpak install --user --noninteractive flathub io.github.celluloid_player.Celluloid
@@ -118,7 +117,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Celluloid Failed"
         exit 1
 fi
-echo "65"
+echo "55"
 
 echo "# Installing Clapper"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.rafostar.Clapper
@@ -127,7 +126,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Clapper Failed"
         exit 1
 fi
-echo "70"
+echo "60"
 
 echo "# Installing DBeaver"
 /usr/bin/flatpak install --user --noninteractive flathub io.dbeaver.DBeaverCommunity
@@ -136,7 +135,16 @@ if [ "$?" != 0 ] ; then
           --text="Installing DBeaver Failed"
         exit 1
 fi
-echo "75"
+echo "65"
+
+echo "# Installing Postman"
+/usr/bin/flatpak install --user --noninteractive  install flathub com.getpostman.Postman
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Postman Failed"
+        exit 1
+fi
+echo "65"
 
 echo "# Installing Flameshot"
 /usr/bin/flatpak install --user --noninteractive flathub org.flameshot.Flameshot
@@ -145,7 +153,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Flameshot Failed"
         exit 1
 fi
-echo "80"
+echo "70"
 
 echo "# Installing CopyQ"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.hluk.copyq
@@ -154,7 +162,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing CopyQ Failed"
         exit 1
 fi
-echo "85"
+echo "75"
 
 echo "# Installing Fondo"
 /usr/bin/flatpak install --user --noninteractive flathub com.github.calo001.fondo
@@ -163,7 +171,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing Fondo Failed"
         exit 1
 fi
-echo "90"
+echo "80"
 
 echo "# Installing FontManager"
 /usr/bin/flatpak install --user --noninteractive flathub org.gnome.FontManager
@@ -172,7 +180,7 @@ if [ "$?" != 0 ] ; then
           --text="Installing FontManager Failed"
         exit 1
 fi
-echo "95"
+echo "85"
 
 echo "# Installing Discord"
 /usr/bin/flatpak install --user --noninteractive flathub com.discordapp.Discord
@@ -181,6 +189,51 @@ if [ "$?" != 0 ] ; then
           --text="Installing Discord Failed"
         exit 1
 fi
+ln -sf $XDG_RUNTIME_DIR/{app/com.discordapp.Discord,}/discord-ipc-0 
+mkdir -p ~/.config/user-tmpfiles.d
+echo 'L %t/discord-ipc-0 - - - - app/com.discordapp.Discord/discord-ipc-0' > ~/.config/user-tmpfiles.d/discord-rpc.conf
+systemctl --user enable --now systemd-tmpfiles-setup.service
+echo "90"
+
+echo "# Installing Rust"
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Installing Rust Failed"
+        exit 1
+fi
+echo "95"
+
+echo "# Setting up zsh"
+PASSWORD=$(zenity --title="Configure the shell require sudo" --password)
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Password Entry Error"
+        exit 1
+fi
+echo -e "$PASSWORD\n/usr/bin/zsh" | sudo -S lchsh $USER
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Error setting up ZSH"
+        exit 1
+fi
+echo "100"
+
+echo '# Installing NVM'
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+echo -e '\n\nexport NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> .zshrc
+echo "100"
+
+echo "# Setting up Docker"
+PASSWORD=$(zenity --title="Configure docker require sudo" --password)
+if [ "$?" != 0 ] ; then
+        zenity --error \
+          --text="Password Entry Error"
+        exit 1
+fi
+echo "docker:x:998:$USER" | sudo tee -a /etc/group
 echo "100"
 
 echo "# Reticulating Final Splines"
