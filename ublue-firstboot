@@ -138,7 +138,7 @@ fi
 echo "56"
 
 echo "# Installing Postman"
-/usr/bin/flatpak install --user --noninteractive  install flathub com.getpostman.Postman
+/usr/bin/flatpak install --user --noninteractive flathub com.getpostman.Postman
 if [ "$?" != 0 ] ; then
         zenity --error \
           --text="Installing Postman Failed"
