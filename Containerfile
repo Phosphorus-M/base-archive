@@ -19,6 +19,8 @@ RUN wget https://copr.fedorainfracloud.org/coprs/lyessaadi/blackbox/repo/fedora-
 RUN rpm-ostree override remove firefox firefox-langpacks && \
     rpm-ostree install pip neovim blackbox-terminal git-credential-libsecret zsh docker moby-engine docker-compose neofetch distrobox gnome-tweaks gnome-shell-extension-gsconnect nautilus-gsconnect plank-0.11.4-99.fc31.x86_64 chromium-libs-media-freeworld openssh-clients autoconf automake binutils gcc gcc-c++ glibc-devel libtool make mold llvm && \
     sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf && \
+    ln -s /usr/bin/ld.bfd /etc/alternatives/ld && \
+    ln -s /etc/alternatives/ld /usr/bin/ld && \
     systemctl enable rpm-ostreed-automatic.timer && \
     systemctl enable flatpak-automatic.timer && \
     rm -f /etc/yum.repos.d/lyessaadi-blackbox.repo && \
