@@ -8,12 +8,12 @@ COPY ublue-firstboot /usr/bin
 # Fix rpm-ostree, see: https://bodhi.fedoraproject.org/updates/FEDORA-2022-4ad713eb82
 # RUN rpm-ostree override replace https://kojipkgs.fedoraproject.org//packages/rpm-ostree/2022.19/2.fc37/x86_64/rpm-ostree-{libs-,}2022.19-2.fc37.x86_64.rpm
 
-RUN wget https://copr.fedorainfracloud.org/coprs/gqman69/plank/repo/fedora-37/gqman69-plank-fedora-37.repo -O /etc/yum.repos.d/gqman69-plank.repo
+RUN wget https://copr.fedorainfracloud.org/coprs/gqman69/plank/repo/fedora-38/gqman69-plank-fedora-38.repo -O /etc/yum.repos.d/gqman69-plank.repo
 
 # Download VSCode in format rpm
 RUN curl -L https://go.microsoft.com/fwlink/?LinkID=760867 -o vscode.rpm && rpm-ostree install ./vscode.rpm
 
-RUN wget https://copr.fedorainfracloud.org/coprs/lyessaadi/blackbox/repo/fedora-37/lyessaadi-blackbox-fedora-37.repo -O /etc/yum.repos.d/lyessaadi-blackbox.repo
+RUN wget https://copr.fedorainfracloud.org/coprs/lyessaadi/blackbox/repo/fedora-38/lyessaadi-blackbox-fedora-38.repo -O /etc/yum.repos.d/lyessaadi-blackbox.repo
 
 # gdb Is not installable
 RUN rpm-ostree override remove firefox firefox-langpacks && \
